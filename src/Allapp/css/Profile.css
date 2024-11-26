@@ -1,0 +1,92 @@
+.profile-card {
+    max-width: 1200px;
+    margin: 0 auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px;
+    border-radius: 12px; 
+    width: 100%; 
+    background-color: #FFFFFF; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+
+  .profile-card-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .profile-user-info {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Avatar del usuario */
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  /* Detalles del usuario */
+  .user-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Nombre del usuario */
+  .user-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Fecha del usuario */
+  .date {
+    font-size: 1rem;
+    color: #888;
+    margin: 0;
+  }
+
+  .media-container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .media {
+    max-width: 100%;
+    max-height: 500px; /* Ajusta según sea necesario */
+  }
+
+  .profile-card-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .comment-button, .like-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .description {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  

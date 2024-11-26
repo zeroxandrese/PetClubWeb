@@ -1,0 +1,158 @@
+.home-container {
+    background: linear-gradient(135deg, #D4B5E9, #A5E4F7, #C9EFFA, #EDF9FD, #FFFFFF);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.logout-button,
+.update-button {
+    background-color: #A5E4F7;
+    border: none;
+    color: #FFFFFF; /* Texto blanco */
+    font-size: 0.8rem; /* Tamaño de fuente reducido */
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.logout-button:hover,
+.update-button:hover {
+    background-color: #D4B5E9;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between; /* Espacio entre la lista de tokens y el cuadro de gráficos */
+    gap: 20px; /* Espacio entre ambos contenedores */
+    width: 100%;
+    padding: 20px;
+}
+
+.side-list {
+    flex: 1; /* Ocupa el espacio disponible */
+    max-width: 400px; /* Ancho máximo para la lista de tokens */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si es necesario */
+}
+
+.charts-container {
+    flex: 2; /* Ocupa el doble de espacio en comparación con la lista de tokens */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.items-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 500px;
+    overflow-y: auto; /* Desplazamiento vertical si el contenido excede el tamaño del contenedor */
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+    word-wrap: break-word; /* Ajusta los tokens largos en múltiples líneas */
+}
+
+.item {
+    background-color: #A5E4F7;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+    color: #4B0082;
+    font-weight: bold;
+    font-size: 0.9rem;
+    word-break: break-word; /* Ajusta el texto largo en múltiples líneas */
+}
+
+.charts-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* Espacio entre gráficos */
+    flex-wrap: wrap; /* Ajusta los gráficos si no caben en una fila */
+}
+
+
+.chart-item {
+    flex: 1;
+    min-width: 300px; /* Ancho mínimo de los gráficos */
+    max-width: 100%; /* Evita que los gráficos se expandan demasiado */
+}
+
+/* Estilo adicional para los gráficos */
+.recharts-bar-label {
+    font-size: 0.7rem; /* Tamaño de fuente reducido */
+}
+
+.refresh-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.refresh-button:hover {
+    background-color: #45a049;
+}
+
+.logo {
+    width: 150px; /* Ajusta el tamaño según tus necesidades */
+    height: auto; /* Mantiene la relación de aspecto */
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+    z-index: 10; /* Aseguramos que esté por encima del contenido */
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
