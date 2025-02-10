@@ -4,7 +4,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useNavigate } from 'react-router-dom';
 
 import petClubApiReports from '../api/apiReports';
-import { Tokens, ElementResponseData } from '../interface/interface';
+import { Tokens, ElementResponseData, BusinessRegisterResponse } from '../interface/interface';
+import { FetchButton } from '../components/FetchButton';
 import { AuthContext } from '../context/AuthContext';
 import logo from '../assets/logoPetClub.png';
 import '../css/Home.css';
@@ -15,15 +16,17 @@ const override: CSSProperties = {
     borderColor: "blue",
 };
 
+
 const Home = () => {
     const [tokens, setTokens] = useState<Tokens[]>([]);
+    const [businessPendingApprove, setBusinessPendingApprove] = useState<BusinessRegisterResponse[]>([]);
     const [loading, setLoading] = useState(false);  // Para la lista de items
     const [loadingData, setLoadingData] = useState(true);  // Para los datos del gráfico
     const [data, setData] = useState([{}]);
 
     const navigate = useNavigate();
 
-    const { logOut, user } = useContext(AuthContext);
+    const { logOut, user, putBusinessApproveData } = useContext(AuthContext);
 
     const fetchTokens = async () => {
         setLoading(true);
@@ -43,11 +46,21 @@ const Home = () => {
             const responseRefresh = await petClubApiReports.get<string>('/info');
             if (responseRefresh.data === 'DATA_SUCCESSFUL') {
                 await getAllData();
+                await getBusinessPendingApprove();
             }
         } catch (error) {
             console.error('Error fetching info:', error);
         } finally {
             setLoadingData(false);
+        }
+    };
+
+    const getBusinessPendingApprove = async () => {
+        try {
+            const response = await petClubApiReports.get('/businessRegister');
+            setBusinessPendingApprove(response.data)
+        } catch (error) {
+            console.error('Error fetching businessData:', error);
         }
     };
 
@@ -106,11 +119,11 @@ const Home = () => {
     };
 
     useEffect(() => {
-        fetchInfo();  // Llama a fetchInfo cuando el componente se monta
-    }, []);  // Asegúrate de que solo se ejecuta al montar el componente
+        getAllData();
+        getBusinessPendingApprove();
+    }, []);
 
     const BarChartComponent = () => {
-        // Muestra el indicador de carga si los datos aún no han sido cargados
         if (loadingData) {
             return (
                 <div style={{ textAlign: 'center', marginTop: '50px' }}>
@@ -127,7 +140,7 @@ const Home = () => {
             );
         }
 
-        // Muestra el gráfico cuando los datos están cargados
+        // Retorno del grafico
         return (
             <ResponsiveContainer width="100%" height={500}>
                 <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 100 }}>
@@ -140,13 +153,13 @@ const Home = () => {
         );
     };
 
-    const handleDownloadCSV = () => {
-        if (tokens.length === 0) {
+    const handleDownloadCSV = ({ file }: any) => {
+        if (file.length === 0) {
             alert('No hay datos para descargar.');
             return;
         }
 
-        const csvContent = convertToCSV(tokens);
+        const csvContent = convertToCSV(file);
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
 
@@ -185,6 +198,22 @@ const Home = () => {
         console.log('LogOut clicked');
     };
 
+    const handleApprove = async (uid: string, approved: boolean) => {
+        try {
+            const response = await putBusinessApproveData({ uid });
+    
+            if (!response.success) {
+                throw new Error('Error al actualizar');
+            }
+    
+            setBusinessPendingApprove(prev =>
+                prev.map(item => (item.uid === uid ? { ...item, approved } : item))
+            );
+        } catch (error) {
+            console.error('Error al aprobar:', error);
+        }
+    };
+
     return (
         <div className="home-container">
             <header>
@@ -221,7 +250,7 @@ const Home = () => {
                         update list
                     </button>
                     <br />
-                    <button onClick={handleDownloadCSV} className="update-button">
+                    <button onClick={() => handleDownloadCSV(tokens)} className="update-button">
                         Download list
                     </button>
                 </div>
@@ -229,6 +258,56 @@ const Home = () => {
                 <div className="charts-container">
                     <h3>Detail</h3>
                     <BarChartComponent />
+                </div>
+            </div>
+
+            <div className="content-wrapper">
+                <div className="side-list">
+                    <h3>Descarga de crudos</h3>
+                    <FetchButton endpoint="/mediaData" label="Download Media Data" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                    <FetchButton endpoint="/interactionMap" label="Download Interaction Map" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                    <FetchButton endpoint="/interactionWhatsapp" label="Download Interaction Whatsapp" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                    <FetchButton endpoint="/likeData" label="Download Like Data" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                    <FetchButton endpoint="/usersConnection" label="Download Users Connections" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                    <FetchButton endpoint="/usersDataApp" label="Download Users Data" onDataFetched={(data) => handleDownloadCSV({ file: data })} />
+                </div>
+                <div className="charts-container">
+                    <h3>Aprobaciones pendientes</h3>
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <ul className="items-list">
+                            {businessPendingApprove.length > 0 ? (
+                                businessPendingApprove.map((item, index) => (
+                                    <li key={index} className="item">
+                                        <p><strong>UID:</strong> {item.uid}</p>
+                                        <p><strong>Nombre:</strong> {item.name}</p>
+                                        <p><strong>Teléfono:</strong> {item.phone}</p>
+                                        <p><strong>Email:</strong> {item.email}</p>
+                                        <p><strong>Creado:</strong> {item.created}</p>
+                                        <p><strong>Latitud:</strong> {item.latitude}</p>
+                                        <p><strong>Longitud:</strong> {item.longitude}</p>
+                                        <p><strong>Horario Semana:</strong> {item.dateAttentionWeek} ({item.weekOpening} - {item.weekClosing})</p>
+                                        <p><strong>Horario Fin de Semana:</strong> {item.dateAttentionWeekend}</p>
+                                        <p><strong>Aprobado:</strong> {item.approved ? 'Sí' : 'No'}</p>
+                                        <p><strong>Imagen:</strong> {item.image}</p>
+
+                                        {/* Checkbox para aprobar */}
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={item.approved}
+                                                onChange={() => handleApprove(item.uid, !item.approved)}
+                                            />
+                                            Aprobar
+                                        </label>
+                                    </li>
+                                ))
+                            ) : (
+                                <p>No hay elementos para mostrar.</p>
+                            )}
+                        </ul>
+                    )}
                 </div>
             </div>
         </div>

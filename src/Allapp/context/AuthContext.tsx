@@ -4,7 +4,10 @@ import petClubApiReports from '../api/apiReports';
 import {
   User,
   LoginResponse,
-  LoginData
+  LoginData,
+  GenericUid,
+  BusinessRegisterResponse,
+  BusinessRegisterData
 } from '../interface/interface';
 
 export interface AuthState {
@@ -34,6 +37,8 @@ export interface authStateProps {
   signIn: (LoginData: LoginData) => Promise<string>,
   logOut: () => void,
   removeError: () => void,
+  putBusinessApproveData: (uid: GenericUid ) => Promise<{ success: boolean; data?: BusinessRegisterResponse; error?: any }>;
+  postFormData: (BusinessRegisterData: BusinessRegisterData) => Promise<any>;
 }
 
 interface props {
@@ -59,7 +64,7 @@ export const AuthProvider = ({ children }: props) => {
     let validationUser = '';
     try {
       const { data } = await petClubApiReports.post<LoginResponse>('/login', { name, password });
-      console.log(data);
+
       dispatch({
         type: 'signIn',
         payload: {
@@ -82,11 +87,83 @@ export const AuthProvider = ({ children }: props) => {
     return validationUser;
   };
 
+  const postFormData = async ({
+    typeUser,
+    name,
+    latitude,
+    longitude,
+    image, // Ahora es un `File`
+    weekOpening,
+    weekClosing,
+    dateAttentionWeek,
+    weekendOpening,
+    weekendClosing,
+    dateAttentionWeekend,
+    phone,
+    email
+  }: BusinessRegisterData): Promise<any> => {
+  
+    try {
+      const formData = new FormData();
+      formData.append("typeUser", typeUser);
+      formData.append("name", name);
+      formData.append("latitude", latitude.toString());
+      formData.append("longitude", longitude.toString());
+      formData.append("weekOpening", weekOpening);
+      formData.append("weekClosing", weekClosing);
+      formData.append("dateAttentionWeek", dateAttentionWeek);
+      formData.append("weekendOpening", weekendOpening);
+      formData.append("weekendClosing", weekendClosing);
+      formData.append("dateAttentionWeekend", dateAttentionWeekend);
+      formData.append("phone", phone);
+      formData.append("email", email);
+  
+      if (image instanceof File) {
+        formData.append("file", image);
+      } else {
+        console.error("La imagen no es un archivo válido.");
+        return null;
+      }
+  
+      const { data } = await petClubApiReports.post("/businessRegister", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      return data;
+    } catch (error: any) {
+      dispatch({
+        type: "addError",
+        payload: error.response?.data?.msg || "Información incorrecta",
+      });
+      return null;
+    }
+  };
+
+  const putBusinessApproveData = async ({ uid }: GenericUid) => {
+    try {
+        const { data } = await petClubApiReports.put<BusinessRegisterResponse>(`/businessRegister/${uid}`);
+
+        return { success: true, data };
+    } catch (error: any) {
+        dispatch({
+            type: 'addError',
+            payload: error.response?.data?.msg || 'Información incorrecta',
+        });
+
+        return { success: false, error };
+    }
+};
+
+
   return (
     <AuthContext.Provider value={{
       ...state,
       signIn,
       logOut,
+      putBusinessApproveData,
+      postFormData,
       removeError
     }}>
       {children}

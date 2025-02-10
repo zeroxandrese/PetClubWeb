@@ -27,7 +27,6 @@ const Login = () => {
         if (name && password) {
             try {
                 const respApiIn = await signIn({ name, password });
-
                 if (respApiIn === 'validado') {
                     navigate('/home');
                 } else {

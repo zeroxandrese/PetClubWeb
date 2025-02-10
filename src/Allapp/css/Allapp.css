@@ -335,3 +335,177 @@ button {
   color: white;
 }
 }
+
+/* Sección de registro de negocio */
+.business-section {
+  background: linear-gradient(133.17deg, #4CC9F0 0%, #7209B7 100%);
+  padding: 20px;
+  margin: 50px auto;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 20px;
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease-out;
+  justify-content: 'center';
+  align-items: 'center';
+}
+
+/* Efecto cuando la sección se hace visible */
+.business-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Título */
+.business-section h2 {
+  font-size: 28px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Descripción */
+.business-section p {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.oval-button:hover {
+  background: linear-gradient(45deg, #B93DFF, #FF77FF);
+  transform: translateY(-3px); 
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px; /* Aquí se mantiene el padding interno */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-left: 10px; /* Aseguramos que el margen izquierdo sea adecuado */
+  margin-right: 10px; /* Margen derecho para balancear */
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px; /* Aseguramos que haya suficiente espacio dentro de los inputs */
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Asegura que el padding no se sobreponga */
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box; /* Asegura que el botón tenga el tamaño adecuado */
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-sizing: border-box; /* Asegura que el padding no cause sobresalimientos */
+}
+
+legend {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  padding-left: 35px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox-label .custom-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .custom-checkbox {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.checkbox-label .custom-checkbox:after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 5px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .custom-checkbox:after {
+  display: block;
+}
+
+.other-input {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const baseURL = 'https://ts-backend-reportspetclub.onrender.com';
+const apiUrl = import.meta.env.VITE_URL_KEY;
+
+const baseURL = apiUrl;
 
 const petClubApiReports = axios.create({ baseURL });
 
