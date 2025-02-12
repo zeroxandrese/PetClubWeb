@@ -201,18 +201,21 @@ const Home = () => {
     const handleApprove = async (uid: string, approved: boolean) => {
         try {
             const response = await putBusinessApproveData({ uid });
-    
+
             if (!response.success) {
                 throw new Error('Error al actualizar');
             }
-    
+
+            // Actualizamos el estado para reflejar la aprobación
             setBusinessPendingApprove(prev =>
                 prev.map(item => (item.uid === uid ? { ...item, approved } : item))
             );
         } catch (error) {
             console.error('Error al aprobar:', error);
+            // Mostrar el error al usuario
+            alert(error || 'Error al aprobar el negocio');
         }
-    };
+    }
 
     return (
         <div className="home-container">

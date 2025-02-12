@@ -155,7 +155,11 @@ const AllappEntry = () => {
               </motion.div>
               <br />
               <br />
-              <LoginButton />
+              <br />
+              <div style={{ marginTop: 20 }}>
+                <LoginButton />
+              </div>
+
               <footer>
                 <p className="foot">© 2024 NovaMatrix SAC. Todos los derechos reservados</p>
                 <div className="redes">
@@ -196,7 +200,11 @@ const AllappEntry = () => {
             </AuthProvider>
           }
         />
-        <Route path="/form" element={<Form />} />
+        <Route path="/form" element={
+          <AuthProvider>
+            <Form />
+          </AuthProvider>
+        } />
       </Routes>
     </Router>
   );

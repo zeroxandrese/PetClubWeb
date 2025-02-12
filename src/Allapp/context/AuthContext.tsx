@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }: props) => {
     name,
     latitude,
     longitude,
-    image, // Ahora es un `File`
+    image,
     weekOpening,
     weekClosing,
     dateAttentionWeek,
